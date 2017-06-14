@@ -1,0 +1,13 @@
+//
+//  GLD_NetworkApiMannager.h
+//  mvc
+//
+//  Created by yiyangkeji on 2017/6/13.
+//  Copyright © 2017年 yiyangkeji. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface GLD_NetworkApiMannager : NSObject
+
+@end
