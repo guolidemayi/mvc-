@@ -10,6 +10,8 @@
 
 @interface User : NSObject
 
+- (instancetype)initWithUserId:(NSUInteger)userId;
+
 @property (copy, nonatomic) NSString *name;
 @property (copy, nonatomic) NSString *icon;
 @property (copy, nonatomic) NSString *summary;

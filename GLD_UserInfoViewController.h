@@ -10,4 +10,7 @@
 
 @interface GLD_UserInfoViewController : UIViewController
 
++ (instancetype)instanceUserInfo:(NSUInteger)userId;
+- (void)fetchData;
+- (CGFloat)viewHeight;
 @end

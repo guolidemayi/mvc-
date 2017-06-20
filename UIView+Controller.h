@@ -10,4 +10,7 @@
 
 @interface UIView (Controller)
 
+- (UIViewController *)gld_ViewController;
+- (UINavigationController *)gld_navigationController;
+
 @end

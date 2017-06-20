@@ -6,7 +6,9 @@
 //  Copyright © 2017年 yiyangkeji. All rights reserved.
 //
 
-#import "GLD_UserViewController.h"
+#import "GLD_SelfViewController.h"
+#import "GLD_UserViewController_Protect.h"
+#import "UIView+Alert.h"
 
 @interface GLD_UserViewController ()
 
@@ -14,24 +16,67 @@
 
 @implementation GLD_UserViewController
 
++ (instancetype)instanceWithUserId:(NSInteger)userId{
+    if (userId == 123) {
+        return [[GLD_UserViewController alloc]initWith:userId];
+    }
+    
+    return [[GLD_SelfViewController alloc]initWith:userId];
+}
+
+- (instancetype)initWith:(NSInteger)userId{
+    self = [super init];
+    if (self) {
+        self.userId = userId;
+    }
+    return self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self configuration];
+    [self setupUI];
+    [self fetchData];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)configuration{
+    self.title = [NSString stringWithFormat:@"用户%ld", self.userId];
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.blogVC = [GLD_BlogTableController instanceWithUserId:self.userId];
+    [self.blogVC setVcBlock:^(id patam) {
+        NSLog(@"%@",[patam description]);
+        UIViewController *vc = [[UIViewController alloc]init];
+        vc.title = @"tttttt";
+        return vc;
+    }];
+    
+    self.userInfoVC = [GLD_UserInfoViewController instanceUserInfo:self.userId];
+    
+    [self addChildViewController:self.userInfoVC];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)setupUI{
+    [self.view addSubview:self.userInfoVC.view];
+    
+    [self.userInfoVC.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.equalTo(self.view);
+        make.height.equalTo(@([self.userInfoVC viewHeight]));
+    }];
+    
+    [self.view addSubview:self.blogVC.tableView];
+    [self.blogVC.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self.view);
+        make.top.equalTo(self.userInfoVC.view.mas_bottom);
+    }];
 }
-*/
+
+- (void)fetchData{
+    
+    [self.userInfoVC fetchData];
+    [self.view showHUD];
+    [self.blogVC fetchDataWithCompletionHandler:^(NSError *error, id result) {
+        [self.view hideHUD];
+    }];
+}
 
 @end

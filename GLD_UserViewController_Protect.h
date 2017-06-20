@@ -9,14 +9,16 @@
 #import "GLD_UserViewController.h"
 
 #import "GLD_BlogTableController.h"
+#import "GLD_UserInfoViewController.h"
 
 @interface GLD_UserViewController ()
 
 @property (assign, nonatomic) NSUInteger userId;
 
 @property (strong, nonatomic) GLD_BlogTableController *blogVC;
+@property (strong, nonatomic) GLD_UserInfoViewController *userInfoVC;
 
-- (void)setupUI:
+- (void)setupUI;
 - (void)fetchData;
 - (void)configuration;
 @end

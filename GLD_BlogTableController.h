@@ -7,7 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GLD_NetworkApiMannager.h"
 
-@interface GLD_BlogTableController : NSObject
+typedef UIViewController *(^vcPushHandlerBlock)(id patam);
 
+@interface GLD_BlogTableController : NSObject<UITableViewDelegate,UITableViewDataSource>
+
++ (instancetype)instanceWithUserId:(NSInteger)userId;
+
+- (UITableView *)tableView;
+- (void)fetchDataWithCompletionHandler:(NetworkCompletionHandler)completionHandler;
+
+- (void)setVcBlock:(vcPushHandlerBlock)vcBlock;
 @end
